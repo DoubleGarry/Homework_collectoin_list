@@ -6,12 +6,17 @@ import pro.sky.homework_collectoin_list.exception.EmployeeNotFoundException;
 import pro.sky.homework_collectoin_list.exception.EmployeeStorageIsFullException;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Service
 public class ListEmployeeService implements EmployeeService {
     private static final int CAPACITY = 10;
-    List<Employee> team = new ArrayList<>();
+    private final List<Employee> team;
+    public ListEmployeeService(){
+        this.team = new ArrayList<>();
+    }
 
 
     @Override
@@ -29,19 +34,25 @@ public class ListEmployeeService implements EmployeeService {
 
     @Override
     public Employee removeEmployee(String firstName, String lastName) {
-        int index = team.indexOf(new Employee(firstName, lastName));
-        if (index == -1) {
-            throw new EmployeeNotFoundException();
+        Employee emp = new Employee(firstName, lastName);
+        if (team.contains(emp)) {
+            team.remove(emp);
+            return emp;
         }
-        return team.remove(index);
+        throw new EmployeeNotFoundException();
     }
 
     @Override
     public Employee findEmployee(String firstName, String lastName) {
-        int index = team.indexOf(new Employee(firstName, lastName));
-        if (index == -1) {
-            throw new EmployeeNotFoundException();
+        Employee emp = new Employee(firstName, lastName);
+        if (team.contains(emp)) {
+            return emp;
         }
-        return team.get(index);
+        throw new EmployeeNotFoundException();
+    }
+
+    @Override
+    public Collection<Employee> findAll() {
+        return Collections.unmodifiableList(team);
     }
 }
