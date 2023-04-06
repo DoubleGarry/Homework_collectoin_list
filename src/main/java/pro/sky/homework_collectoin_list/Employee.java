@@ -21,25 +21,28 @@ public class Employee {
     public String getLastName() {
         return lastName;
     }
+    public String getFullName(){
+        return firstName + " " + lastName;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Employee employee = (Employee) o;
-        return Objects.equals(firstName, employee.firstName) && Objects.equals(lastName, employee.lastName);
+        return Objects.equals(getFirstName(), employee.getFirstName()) && Objects.equals(getLastName(), employee.getLastName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, lastName);
+        return Objects.hash(getFirstName(), getLastName());
     }
 
     @Override
     public String toString() {
         return "Employee{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                "Name ='" + getFirstName() + '\'' +
+                ", Surname ='" + getLastName() + '\'' +
                 '}';
     }
 }
